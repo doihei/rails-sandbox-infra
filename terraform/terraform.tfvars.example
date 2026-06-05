@@ -1,0 +1,4 @@
+project_id  = "YOUR_PROJECT_ID"
+region      = "asia-northeast1"
+rails_image = "asia-northeast1-docker.pkg.dev/YOUR_PROJECT/rails-sandbox/rails-api:latest"
+front_image = "asia-northeast1-docker.pkg.dev/YOUR_PROJECT/rails-sandbox/front:latest"
