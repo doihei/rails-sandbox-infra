@@ -19,6 +19,40 @@ rails-sandbox-infra/
     └── outputs.tf     # rails_api_url / front_url
 ```
 
+## システム構成図
+
+```mermaid
+graph TB
+    User["🌐 ブラウザ"]
+
+    subgraph GCP["GCP Project  (asia-northeast1)"]
+        direction TB
+
+        subgraph CR["Cloud Run"]
+            Front["rails-sandbox-front\n(Next.js / port 3000)"]
+            API["rails-sandbox-api\n(Rails 8 / port 8080)"]
+        end
+
+        SQL[("Cloud SQL\nPostgreSQL 16\ndb-f1-micro")]
+        SM[["Secret Manager\nrails-master-key\ndatabase-url\nallowed-origins"]]
+
+        subgraph Build["ビルドパイプライン"]
+            CB(["Cloud Build\ndeploy.sh"])
+            AR["Artifact Registry\nrails-api:SHA\nfront:SHA"]
+        end
+    end
+
+    User        -->|"HTTPS"| Front
+    Front       -->|"GraphQL / HTTPS"| API
+    API         -->|"Unix socket"| SQL
+    API         -.->|"Secret 参照"| SM
+    CB          -->|"build & push"| AR
+    AR          -.->|"image pull"| Front
+    AR          -.->|"image pull"| API
+```
+
+**実線** = リクエスト / データの流れ　**破線** = 参照・取得
+
 ## GCP リソース
 
 | リソース | 内容 |
