@@ -55,9 +55,11 @@ terraform apply
 
 ## 通常デプロイ
 
-リポジトリルートの `deploy.sh` がすべてを担う。
+リポジトリルートの `deploy.sh` がすべてを担う。`GCP_PROJECT` は必須、`GCP_REGION` は未指定時 `asia-northeast1`。
 
 ```bash
+export GCP_PROJECT=your-project-id
+# export GCP_REGION=asia-northeast1  # 必要なら変更
 ./deploy.sh
 ```
 

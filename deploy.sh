@@ -6,9 +6,9 @@ INFRA_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="$(dirname "$INFRA_DIR")"
 TERRAFORM_DIR="$INFRA_DIR/terraform"
 
-PROJECT=rails-sandbox-learn
-REGION=asia-northeast1
-REGISTRY=asia-northeast1-docker.pkg.dev/$PROJECT/rails-sandbox
+PROJECT="${GCP_PROJECT:?GCP_PROJECT を設定してください (例: export GCP_PROJECT=your-project-id)}"
+REGION="${GCP_REGION:-asia-northeast1}"
+REGISTRY="$REGION-docker.pkg.dev/$PROJECT/rails-sandbox"
 
 RAILS_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox" rev-parse --short HEAD)
 FRONT_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox-front" rev-parse --short HEAD)
