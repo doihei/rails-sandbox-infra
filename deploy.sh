@@ -1,5 +1,5 @@
 #!/bin/bash
-# 前提: rails-sandbox/, rails-sandbox-front/, rails-sandbox-infra/ が同じ階層にあること
+# 前提: rails-sandbox-backend/, rails-sandbox-frontend/, rails-sandbox-infra/ が同じ階層にあること
 set -euo pipefail
 
 INFRA_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -10,15 +10,15 @@ PROJECT="${GCP_PROJECT:?GCP_PROJECT を設定してください (例: export GCP
 REGION="${GCP_REGION:-asia-northeast1}"
 REGISTRY="$REGION-docker.pkg.dev/$PROJECT/rails-sandbox"
 
-RAILS_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox" rev-parse --short HEAD)
-FRONT_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox-front" rev-parse --short HEAD)
+RAILS_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox-backend" rev-parse --short HEAD)
+FRONT_SHA=$(git -C "$WORKSPACE_DIR/rails-sandbox-frontend" rev-parse --short HEAD)
 
 echo "==> rails-api:$RAILS_SHA をビルド中..."
 gcloud builds submit \
-  --config="$WORKSPACE_DIR/rails-sandbox/cloudbuild.yaml" \
+  --config="$WORKSPACE_DIR/rails-sandbox-backend/cloudbuild.yaml" \
   --project="$PROJECT" \
   --substitutions="_SHA=$RAILS_SHA" \
-  "$WORKSPACE_DIR/rails-sandbox"
+  "$WORKSPACE_DIR/rails-sandbox-backend"
 
 # rails_image を更新
 sed -i '' "s|rails_image = .*|rails_image = \"$REGISTRY/rails-api:$RAILS_SHA\"|" "$TERRAFORM_DIR/terraform.tfvars"
@@ -29,10 +29,10 @@ echo "==> API URL: $API_URL"
 
 echo "==> front:$FRONT_SHA をビルド中..."
 gcloud builds submit \
-  --config="$WORKSPACE_DIR/rails-sandbox-front/cloudbuild.yaml" \
+  --config="$WORKSPACE_DIR/rails-sandbox-frontend/cloudbuild.yaml" \
   --project="$PROJECT" \
   --substitutions="_SHA=$FRONT_SHA,_GRAPHQL_ENDPOINT=$API_URL/graphql" \
-  "$WORKSPACE_DIR/rails-sandbox-front"
+  "$WORKSPACE_DIR/rails-sandbox-frontend"
 
 # front_image を更新
 sed -i '' "s|front_image = .*|front_image = \"$REGISTRY/front:$FRONT_SHA\"|" "$TERRAFORM_DIR/terraform.tfvars"

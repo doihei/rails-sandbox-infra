@@ -69,7 +69,7 @@ resource "google_cloud_run_service_iam_member" "rails_api_public" {
 }
 
 resource "google_cloud_run_v2_service" "front" {
-  name     = "rails-sandbox-front"
+  name     = "rails-sandbox-frontend"
   location = var.region
 
   template {

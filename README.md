@@ -1,6 +1,6 @@
 # rails-sandbox-infra
 
-rails-sandbox / rails-sandbox-front を GCP にデプロイするための Terraform インフラ管理リポジトリ。
+rails-sandbox-backend / rails-sandbox-frontend を GCP にデプロイするための Terraform インフラ管理リポジトリ。
 
 ## 構成
 
@@ -29,7 +29,7 @@ graph TB
         direction TB
 
         subgraph CR["Cloud Run"]
-            Front["rails-sandbox-front\n(Next.js / port 3000)"]
+            Front["rails-sandbox-frontend\n(Next.js / port 3000)"]
             API["rails-sandbox-api\n(Rails 8 / port 8080)"]
         end
 
@@ -57,7 +57,7 @@ graph TB
 
 | リソース | 内容 |
 |---|---|
-| Cloud Run | `rails-sandbox-api`（Rails）/ `rails-sandbox-front`（Next.js） |
+| Cloud Run | `rails-sandbox-api`（Rails）/ `rails-sandbox-frontend`（Next.js） |
 | Cloud SQL | PostgreSQL 16 (`db-f1-micro`)、Unix socket で Cloud Run と接続 |
 | Secret Manager | `rails-master-key` / `database-url` / `allowed-origins` |
 | Artifact Registry | `rails-sandbox` リポジトリ（Terraform 外で作成） |
@@ -99,9 +99,9 @@ export GCP_PROJECT=your-project-id
 
 内部で以下を順番に実行する：
 
-1. `rails-sandbox` の git SHA でバックエンドイメージをビルド・push
+1. `rails-sandbox-backend` の git SHA でバックエンドイメージをビルド・push
 2. `terraform output` で API URL を取得
-3. `rails-sandbox-front` の git SHA + API URL でフロントイメージをビルド・push
+3. `rails-sandbox-frontend` の git SHA + API URL でフロントイメージをビルド・push
 4. `terraform.tfvars` のイメージタグを更新
 5. `terraform apply` でデプロイ
 
