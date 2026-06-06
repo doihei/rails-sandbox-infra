@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    // Terraform 言語サーバー（構文ハイライト・補完・バリデーション・フォーマット）
+    "hashicorp.terraform",
+    // シェルスクリプト lint（deploy.sh の静的解析）
+    "timonwong.shellcheck",
+    // シェルスクリプト フォーマット
+    "foxundermoon.shell-format",
+    // GitLens（コミット履歴・blame）
+    "eamodio.gitlens"
+  ]
+}

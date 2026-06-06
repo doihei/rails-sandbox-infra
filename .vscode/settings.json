@@ -1,0 +1,47 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+
+  // Terraform（hashicorp.terraform 拡張が提供するフォーマッタ）
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform-vars]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  // シェルスクリプト（shell-format 拡張）
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+
+  // Terraform 言語サーバー設定
+  "terraform.languageServer.enable": true,
+  "terraform.validation.enableEnhancedValidation": true,
+
+  // エクスプローラーから除外（機密情報・自動生成・ビルド成果物）
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/terraform/.terraform": true,
+    "**/terraform/*.tfstate": true,
+    "**/terraform/*.tfstate.backup": true,
+    "**/terraform/terraform.tfvars": true,
+    "**/terraform/.terraform.lock.hcl": true
+  },
+
+  // 検索から除外
+  "search.exclude": {
+    "**/terraform/.terraform": true,
+    "**/terraform/*.tfstate": true,
+    "**/terraform/*.tfstate.backup": true,
+    "**/terraform/.terraform.lock.hcl": true
+  },
+
+  "gitlens.codeLens.enabled": true
+}
