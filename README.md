@@ -12,7 +12,7 @@ rails-sandbox-infra/
     ├── variables.tf   # 変数定義
     ├── terraform.tfvars        # プロジェクト ID・リージョン・イメージタグ
     ├── terraform.tfvars.example
-    ├── croud_run.tf   # Cloud Run サービス定義
+    ├── cloud_run.tf   # Cloud Run サービス定義
     ├── cloudsql.tf    # Cloud SQL インスタンス・DB・ユーザー
     ├── secrets.tf     # Secret Manager シークレット定義
     ├── iam.tf         # サービスアカウント・IAM バインディング
